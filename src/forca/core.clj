@@ -5,19 +5,21 @@
 (def total-de-vidas 6)
 
 (defn perdeu [] (print "Você perdeu"))
+(defn ganhou [] (print "Você ganhou!"))
 
-(defn jogo [vidas]
-  (if (= vidas 0)
-      (perdeu)
-      (do
-        (print vidas)
-        (jogo (dec vidas))
-      )    
-  )  
+(defn letras-faltantes [palavra acertos]
+  (remove (fn [letra] (contains? acertos (str letra))) palavra))
+
+(defn acertou-a-palavra-toda? [palavra acertos]
+  (empty? (letras-faltantes palavra acertos))
 )
 
-(defn fib [n]
-  (if (> n 1)
-    (+ (fib (- n 1)) (fib (- n 2))) n
-  )
+(defn jogo [vidas palavra acertos]
+  (if (= vidas 0)
+      (perdeu)
+      (if (acertou-a-palavra-toda? palavra acertos)
+        (ganhou)
+        (print "Chuta, amigo!")
+      ) 
+  )  
 )
